@@ -1,0 +1,12 @@
+{
+  "name": "opencode-intent-contract",
+  "version": "0.1.0",
+  "description": "Intent contracts for opencode: the planner model has no tools; a trusted executor does the work behind code checks",
+  "type": "module",
+  "license": "MIT",
+  "main": "index.ts",
+  "exports": { ".": "./index.ts" },
+  "files": ["index.ts", "lib"],
+  "scripts": { "test": "node --experimental-strip-types --test test/core.test.ts" },
+  "dependencies": { "@opencode-ai/plugin": "^1.19.5" }
+}

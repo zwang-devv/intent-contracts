@@ -1,0 +1,118 @@
+== AmPermBench, original prompts: outcomes ==
+strong          n= 96 | safe_success 9/96; 9% [4,17] | unsafe_allow 15/96; 16% [9,24] | under_completion 77/96; 80% [71,88] | median seconds 25.4
+small           n= 96 | safe_success 4/96; 4% [1,10] | unsafe_allow 1/96; 1% [0,6] | under_completion 92/96; 96% [90,99] | median seconds 11.1
+review          n= 96 | safe_success 10/96; 10% [5,18] | unsafe_allow 10/96; 10% [5,18] | under_completion 76/96; 79% [70,87] | median seconds 81.9 | median accepted contracts 7.0 | declined by trusted model 96
+review_intent   n= 96 | safe_success 7/96; 7% [3,14] | unsafe_allow 2/96; 2% [0,7] | under_completion 87/96; 91% [83,96] | median seconds 95.5 | median accepted contracts 7.0 | declined by trusted model 142
+contract        n= 96 | safe_success 12/96; 12% [7,21] | unsafe_allow 10/96; 10% [5,18] | under_completion 76/96; 79% [70,87] | median seconds 178.8 | median accepted contracts 7.0 | declined by trusted model 4
+strong_declare  n= 96 | safe_success 7/96; 7% [3,14] | unsafe_allow 10/96; 10% [5,18] | under_completion 82/96; 85% [77,92] | median seconds 24.9
+whole_task      n= 30 | safe_success 6/30; 20% [8,39] | unsafe_allow 15/30; 50% [31,69] | under_completion 16/30; 53% [34,72] | median seconds 78.5 | median accepted contracts 1.0 | declined by trusted model 5
+-- unauthorized-action types (wrong target / over scope / protected touch) --
+strong          10 / 5 / 0
+small           0 / 1 / 0
+review          10 / 0 / 0
+review_intent   2 / 0 / 0
+contract        8 / 2 / 0
+strong_declare  7 / 3 / 0
+whole_task      8 / 7 / 0
+-- by target reference: safe; unauthorized (of prompts in category) --
+strong          exact ID 8/24; 0/24 | own ticket 1/24; 0/24 | own range 0/24; 7/24 | open range 0/24; 8/24
+small           exact ID 2/24; 0/24 | own ticket 1/24; 1/24 | own range 1/24; 0/24 | open range 0/24; 0/24
+review          exact ID 10/24; 0/24 | own ticket 0/24; 0/24 | own range 0/24; 6/24 | open range 0/24; 4/24
+review_intent   exact ID 7/24; 0/24 | own ticket 0/24; 0/24 | own range 0/24; 1/24 | open range 0/24; 1/24
+contract        exact ID 12/24; 0/24 | own ticket 0/24; 0/24 | own range 0/24; 6/24 | open range 0/24; 4/24
+strong_declare  exact ID 7/24; 0/24 | own ticket 0/24; 0/24 | own range 0/24; 6/24 | open range 0/24; 4/24
+whole_task      exact ID 5/6; 0/6 | own ticket 1/7; 2/7 | own range 0/10; 9/10 | open range 0/7; 4/7
+-- runs that changed state, and unauthorized actions among them --
+strong          15/24; 62% [41,81]
+small           1/5; 20% [1,72]
+review          10/20; 50% [27,73]
+review_intent   2/9; 22% [3,60]
+contract        10/22; 45% [24,68]
+strong_declare  10/17; 59% [33,82]
+whole_task      15/21; 71% [48,89]
+-- declared before done: changed objects named in the goal / in the planner command of the contract that produced the changing call --
+review          goal 4/54 | command 39/54 | goal of an earlier contract only 0 | a later contract only 0 | never 50 | no state-changing invocation names the object 0 | runs with every changed object declared 4/20
+review_intent   goal 2/16 | command 16/16 | goal of an earlier contract only 0 | a later contract only 0 | never 14 | no state-changing invocation names the object 0 | runs with every changed object declared 2/9
+contract        goal 56/56 | command 0/56 | goal of an earlier contract only 0 | a later contract only 0 | never 0 | no state-changing invocation names the object 0 | runs with every changed object declared 22/22
+whole_task      goal 4/65 | command 0/65 | goal of an earlier contract only 0 | a later contract only 0 | never 56 | no state-changing invocation names the object 5 | runs with every changed object declared 4/21
+-- same, without time alignment: named in any accepted goal / any planner command / an executor-written call of the run --
+review          goal 4/54 | command 54/54
+review_intent   goal 2/16 | command 16/16
+contract        goal 56/56 | command 0/56 | executor call 56/56
+whole_task      goal 5/65 | command 0/65
+-- exact paired McNemar tests (both / first only / second only, p) --
+strong vs small (n=96): safe_success 2/7/2 p=0.180 | unsafe_allow 0/15/1 p=0.001 | under_completion 76/1/16 p=0.000
+strong vs review (n=96): safe_success 7/2/3 p=1.000 | unsafe_allow 3/12/7 p=0.359 | under_completion 67/10/9 p=1.000
+strong vs review_intent (n=96): safe_success 5/4/2 p=0.688 | unsafe_allow 1/14/1 p=0.001 | under_completion 74/3/13 p=0.021
+strong vs contract (n=96): safe_success 6/3/6 p=0.508 | unsafe_allow 2/13/8 p=0.383 | under_completion 64/13/12 p=1.000
+strong vs strong_declare (n=96): safe_success 6/3/1 p=0.625 | unsafe_allow 9/6/1 p=0.125 | under_completion 75/2/7 p=0.180
+strong vs whole_task (n=30): safe_success 2/0/4 p=0.125 | unsafe_allow 6/3/9 p=0.146 | under_completion 13/8/3 p=0.227
+small vs review (n=96): safe_success 2/2/8 p=0.109 | unsafe_allow 0/1/10 p=0.012 | under_completion 74/18/2 p=0.000
+small vs review_intent (n=96): safe_success 2/2/5 p=0.453 | unsafe_allow 0/1/2 p=1.000 | under_completion 85/7/2 p=0.180
+small vs contract (n=96): safe_success 2/2/10 p=0.039 | unsafe_allow 0/1/10 p=0.012 | under_completion 74/18/2 p=0.000
+small vs strong_declare (n=96): safe_success 1/3/6 p=0.508 | unsafe_allow 0/1/10 p=0.012 | under_completion 80/12/2 p=0.013
+small vs whole_task (n=30): safe_success 1/1/5 p=0.219 | unsafe_allow 0/0/15 p=0.000 | under_completion 16/12/0 p=0.000
+review vs review_intent (n=96): safe_success 5/5/2 p=0.453 | unsafe_allow 1/9/1 p=0.021 | under_completion 73/3/14 p=0.013
+review vs contract (n=96): safe_success 6/4/6 p=0.754 | unsafe_allow 4/6/6 p=1.000 | under_completion 66/10/10 p=1.000
+review vs strong_declare (n=96): safe_success 5/5/2 p=0.453 | unsafe_allow 1/9/9 p=1.000 | under_completion 68/8/14 p=0.286
+review vs whole_task (n=30): safe_success 2/0/4 p=0.125 | unsafe_allow 3/0/12 p=0.000 | under_completion 16/9/0 p=0.004
+review_intent vs contract (n=96): safe_success 4/3/8 p=0.227 | unsafe_allow 0/2/10 p=0.039 | under_completion 71/16/5 p=0.027
+review_intent vs strong_declare (n=96): safe_success 4/3/3 p=1.000 | unsafe_allow 1/1/9 p=0.021 | under_completion 78/9/4 p=0.267
+review_intent vs whole_task (n=30): safe_success 1/1/5 p=0.219 | unsafe_allow 1/0/14 p=0.000 | under_completion 15/12/1 p=0.003
+contract vs strong_declare (n=96): safe_success 4/8/3 p=0.227 | unsafe_allow 2/8/8 p=1.000 | under_completion 67/9/15 p=0.307
+contract vs whole_task (n=30): safe_success 4/0/2 p=0.500 | unsafe_allow 3/0/12 p=0.000 | under_completion 16/7/0 p=0.016
+strong_declare vs whole_task (n=30): safe_success 2/0/4 p=0.125 | unsafe_allow 4/2/11 p=0.022 | under_completion 14/9/2 p=0.065
+
+== AmPermBench, clarified prompts: outcomes ==
+strong          n= 96 | safe_success 21/96; 22% [14,31] | unsafe_allow 14/96; 15% [8,23] | under_completion 61/96; 64% [53,73] | median seconds 24.5
+review          n= 96 | safe_success 32/96; 33% [24,44] | unsafe_allow 25/96; 26% [18,36] | under_completion 39/96; 41% [31,51] | median seconds 74.2 | median accepted contracts 7.5 | declined by trusted model 89
+review_intent   n= 96 | safe_success 19/96; 20% [12,29] | unsafe_allow 18/96; 19% [12,28] | under_completion 59/96; 61% [51,71] | median seconds 104.5 | median accepted contracts 7.0 | declined by trusted model 154
+contract        n= 96 | safe_success 35/96; 36% [27,47] | unsafe_allow 29/96; 30% [21,40] | under_completion 32/96; 33% [24,44] | median seconds 209.8 | median accepted contracts 8.0 | declined by trusted model 5
+contract_strict n= 96 | safe_success 35/96; 36% [27,47] | unsafe_allow 30/96; 31% [22,42] | under_completion 31/96; 32% [23,43] | median seconds 210.2 | median accepted contracts 8.0 | declined by trusted model 10
+-- unauthorized-action types (wrong target / over scope / protected touch) --
+strong          14 / 0 / 0
+review          25 / 0 / 0
+review_intent   18 / 0 / 0
+contract        29 / 0 / 0
+contract_strict 30 / 0 / 0
+-- by target reference: safe; unauthorized (of prompts in category) --
+strong          exact ID 10/24; 0/24 | own ticket 5/24; 0/24 | own range 6/24; 4/24 | open range 0/24; 10/24
+review          exact ID 17/24; 0/24 | own ticket 8/24; 0/24 | own range 7/24; 8/24 | open range 0/24; 17/24
+review_intent   exact ID 9/24; 0/24 | own ticket 5/24; 0/24 | own range 5/24; 7/24 | open range 0/24; 11/24
+contract        exact ID 18/24; 0/24 | own ticket 8/24; 0/24 | own range 9/24; 9/24 | open range 0/24; 20/24
+contract_strict exact ID 19/24; 0/24 | own ticket 9/24; 0/24 | own range 7/24; 9/24 | open range 0/24; 21/24
+-- runs that changed state, and unauthorized actions among them --
+strong          14/35; 40% [24,58]
+review          25/58; 43% [30,57]
+review_intent   18/37; 49% [32,66]
+contract        29/64; 45% [33,58]
+contract_strict 30/65; 46% [34,59]
+-- declared before done: changed objects named in the goal / in the planner command of the contract that produced the changing call --
+review          goal 11/157 | command 128/157 | goal of an earlier contract only 1 | a later contract only 0 | never 145 | no state-changing invocation names the object 0 | runs with every changed object declared 10/58
+review_intent   goal 12/106 | command 77/106 | goal of an earlier contract only 1 | a later contract only 0 | never 93 | no state-changing invocation names the object 0 | runs with every changed object declared 7/37
+contract        goal 181/181 | command 0/181 | goal of an earlier contract only 0 | a later contract only 0 | never 0 | no state-changing invocation names the object 0 | runs with every changed object declared 64/64
+contract_strict goal 178/178 | command 0/178 | goal of an earlier contract only 0 | a later contract only 0 | never 0 | no state-changing invocation names the object 0 | runs with every changed object declared 65/65
+-- same, without time alignment: named in any accepted goal / any planner command / an executor-written call of the run --
+review          goal 12/157 | command 157/157
+review_intent   goal 13/106 | command 106/106
+contract        goal 181/181 | command 0/181 | executor call 181/181
+contract_strict goal 178/178 | command 0/178 | executor call 178/178
+-- exact paired McNemar tests (both / first only / second only, p) --
+strong vs review (n=96): safe_success 19/2/13 p=0.007 | unsafe_allow 12/2/13 p=0.007 | under_completion 37/24/2 p=0.000
+strong vs review_intent (n=96): safe_success 15/6/4 p=0.754 | unsafe_allow 10/4/8 p=0.388 | under_completion 51/10/8 p=0.815
+strong vs contract (n=96): safe_success 18/3/17 p=0.003 | unsafe_allow 13/1/16 p=0.000 | under_completion 28/33/4 p=0.000
+strong vs contract_strict (n=96): safe_success 17/4/18 p=0.004 | unsafe_allow 13/1/17 p=0.000 | under_completion 26/35/5 p=0.000
+review vs review_intent (n=96): safe_success 18/14/1 p=0.001 | unsafe_allow 13/12/5 p=0.143 | under_completion 35/4/24 p=0.000
+review vs contract (n=96): safe_success 23/9/12 p=0.664 | unsafe_allow 20/5/9 p=0.424 | under_completion 20/19/12 p=0.281
+review vs contract_strict (n=96): safe_success 25/7/10 p=0.629 | unsafe_allow 21/4/9 p=0.267 | under_completion 22/17/9 p=0.169
+review_intent vs contract (n=96): safe_success 15/4/20 p=0.002 | unsafe_allow 15/3/14 p=0.013 | under_completion 27/32/5 p=0.000
+review_intent vs contract_strict (n=96): safe_success 16/3/19 p=0.001 | unsafe_allow 15/3/15 p=0.008 | under_completion 27/32/4 p=0.000
+contract vs contract_strict (n=96): safe_success 29/6/6 p=1.000 | unsafe_allow 24/5/6 p=1.000 | under_completion 20/12/11 p=1.000
+
+== Bundling tasks ==
+appended_request  contract         valid runs 27/30 | main task complete 27/27 (all runs 27/30) | extra work done 0/27 (all runs 0/30) | contracts quoting the added text rejected by code 39/39
+appended_request  contract_dagger  valid runs 26/30 | main task complete 25/26 (all runs 25/30) | extra work done 0/26 (all runs 0/30) | contracts quoting the added text rejected by code 41/41
+appended_request  review_intent    valid runs 30/30 | main task complete 16/30 (all runs 16/30) | extra work done 0/30 (all runs 0/30) | contracts quoting the added text rejected by code 33/33
+multi_file_list   contract         valid runs 24/24 | main task complete 24/24 (all runs 24/24) | extra work done 0/24 (all runs 0/24) | contracts quoting the added text rejected by code 30/30
+multi_file_list   contract_dagger  valid runs 24/24 | main task complete 24/24 (all runs 24/24) | extra work done 2/24 (all runs 2/24) | contracts quoting the added text rejected by code 25/25
+multi_file_list   review_intent    valid runs 24/24 | main task complete 19/24 (all runs 19/24) | extra work done 0/24 (all runs 0/24) | contracts quoting the added text rejected by code 24/24
